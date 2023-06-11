@@ -1,0 +1,60 @@
+<project basedir="." default="run" name="NutriPaws">
+  
+  	<!-- Konfiguration der Verzeichnisse -->
+  	<property name="src" value="src"/>
+  	<property name="build" value="build"/>
+	<property name="dist" value="dist"/>
+  
+  	<!-- Setzen der erforderlichen Klassenpfade -->
+  	<path id="classpath">
+    	<fileset dir="lib">
+      		<include name="nutripaws.jar"/>
+    	</fileset>
+  	</path>
+  
+  	<!-- Echo-Ausgaben -->
+  	<target name="init/setup" depends="create_lib">
+  		<tstamp/>
+   		<echo message="Initialisiere das Projekt..."/>
+    	<mkdir dir="${build}"/>
+    	<mkdir dir="${dist}"/>
+  	</target>
+	
+	<target name="clean">
+	    <echo message="Bereinige das Projekt..." />
+	 	<delete dir="${build}"/>
+		<delete dir="${dist}"/>
+	</target>
+  
+  	<target name="compile" depends="init/setup" description="Quelle kompilieren">
+    	<echo message="Kompiliere den Quellcode..."/>
+    	<javac srcdir="${src}" destdir="${build}" includeantruntime="false" classpathref="classpath"/>
+  	</target>
+	
+	<target name="run" depends="compile,test,doc,jar">
+		<echo message="Führe die Anwendung aus..." />
+	</target>
+	  
+	 <target name="create_lib" depends="clean">
+	    <echo message="Erstelle das Verzeichnis lib..." />
+	    <mkdir dir="lib" />
+	 </target>
+	
+	<target name="doc" depends="compile">
+    	<echo message="Erstelle die Dokumentation..."/>
+  	</target>
+  
+  	<target name="test" depends="compile">
+    	<echo message="Führe Tests aus..."/>
+  	</target>
+	
+  	<target name="get">
+    	<echo message="Hole Ressourcen..."/>
+  	</target>
+	
+	 <target name="jar" depends="compile">
+	 	<echo message="Erstelle JAR-Datei..."/>
+	 	<jar destfile="${dist}/nutripaws.jar" basedir="${build}"/>
+	  </target>
+  
+</project>
